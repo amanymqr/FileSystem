@@ -1,7 +1,8 @@
 @extends('file.master')
+@section('title', 'form')
 @section('content')
 
-    <body>
+
 
         <div class="upload" style="margin-top: 90px">
             <div class="container ">
@@ -53,5 +54,4 @@
 
         </div>
 
-    </body>
 @endsection

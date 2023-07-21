@@ -1,6 +1,6 @@
 @extends('file.master')
+@section('title', 'share link')
 @section('content')
-<body style="background-color: #ffffff" >
     <div class="container my-5">
         <h2 style="color: #96245d" class="text-center fw-bold fs-5">{{ $file->name }} Shareable Link</h2>
 
@@ -52,5 +52,4 @@
     </script>
 
 @endsection
-</body>
 @endsection
