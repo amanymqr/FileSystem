@@ -39,7 +39,7 @@
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>
-
+                        {{--  <a class="btn btn-sm btn-secondary" href="{{ route('file.edit', $data->id) }}"><i class="bi bi-pencil-square text-white"></i></a>  --}}
 
                     </td>
                 </tr>

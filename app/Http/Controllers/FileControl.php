@@ -64,9 +64,12 @@ class FileControl extends Controller
 public function share($id)
 {
     $file = File::findOrFail($id);
-    $url = route('file.download', ['file' => $file->file]);
+    $url =  URL::temporarySignedRoute('file.download',  now()->addHours(3) ,
+            ['file' => $file->file ,
+            'name' => $file->name ]);
     return view('file.share', compact('url', 'file'));
 }
+
 
 
     public function destroy($id)
@@ -82,4 +85,55 @@ public function share($id)
             ->with('msg', 'File deleted successfully')
             ->with('type', 'danger');
     }
+
+
+
+
+
+
+
+
+
+
+//     public function edit($id)
+//     {
+//         $file_data = File::findOrFail($id);
+//         return view('file.edit', compact('file_data'));
+//     }
+
+// public function update(Request $request, $id)
+// {
+//     $file_data = File::findOrFail($id);
+
+//     $request->validate([
+//         'name' => 'required',
+//         'file' => 'file|max:10240'
+//     ]);
+
+//     $filename = null;
+//     if ($request->hasFile('file')) {
+//         // Delete the old file if a new one is uploaded
+//         if ($file_data->file) {
+//             Storage::delete('assets/' . $file_data->file);
+//         }
+
+//         $filename = Str::random(12) . '.' . $request->file('file')->getClientOriginalName();
+//         $request->file('file')->move(public_path('assets'), $filename);
+//     } else {
+//         // If no file is uploaded, keep the existing file
+//         $filename = $file_data->file;
+//     }
+
+//     $file_data->name = $request->name;
+//     $file_data->file = $filename;
+//     $file_data->save();
+
+//     return redirect()->route('file.show', ['file' => $file_data->id])->with('msg', 'File updated successfully')->with('type', 'success');
+// }
+
+// public function edit(string $id)
+// {
+//     return abort(404);
+// }
+
 }
