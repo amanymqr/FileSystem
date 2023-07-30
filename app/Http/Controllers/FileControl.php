@@ -25,13 +25,12 @@ class FileControl extends Controller
             'file' => 'required|file|max:10240'
         ]);
         $file_data = new File();
-        $filename = Str::random(12) . '.' .  $request->file->getClientOriginalName();
+        $filename = Str::random(8) . '.' .  $request->file->getClientOriginalName();
 
         $request->file->move('assets', $filename);
         $file_data->file = $filename;
         $file_data->name = $request->name;
         $file_data->save();
-        // $test = File::create($request->all());
         return redirect()->route('file.show')->with('msg', 'file uploaded successfully')->with('type', 'success');
     }
 
@@ -64,7 +63,7 @@ class FileControl extends Controller
 public function share($id)
 {
     $file = File::findOrFail($id);
-    $url =  URL::temporarySignedRoute('file.download',  now()->addHours(3) ,
+    $url =  URL::temporarySignedRoute('file.download',  now()->addHours(2) ,
             ['file' => $file->file ,
             'name' => $file->name ]);
     return view('file.share', compact('url', 'file'));

@@ -12,7 +12,7 @@
         </div>
         @endif
 
-        <h2 class="text-center">Uploaded Files</h2>
+        <h2 class="text-center" style="color: #617fa9">Uploaded Files</h2>
         <table class="table text-center table-striped table-sm">
 
             <thead>

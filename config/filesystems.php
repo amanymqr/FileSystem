@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'), // Store files in the "storage/app/private" directory
+        ],
+
     ],
 
     /*

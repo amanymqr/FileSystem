@@ -10,12 +10,12 @@
                     <div class="row align-items-center justify-content-center">
                         <div class="col-md-5 ">
                             <div class=" img-upload mb-4  d-flex justify-content-center align-items-center ">
-                                <img class="img-fluid" src="{{ asset('img/upload.png') }}" alt="">
+                                <img class="img-fluid" src="{{ asset('img/download.jpg') }}" alt="">
                             </div>
 
                         </div>
                         <div class="col-md-6 ">
-                            <h4 class="text-center mb-4" style="color:#445963 ">File Sharing System</h4>
+                            <h4 class="text-center mb-4" style="color:#617fa9 ">File Sharing System</h4>
                             <form action="{{ route('file.upload') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div>
@@ -39,7 +39,7 @@
                                     </div>
 
 
-                                    <button class="btn mt-3 w-100" style="background-color: #ba68c8 ; color:#fff"
+                                    <button class="btn mt-3 w-100 text-white " style="background-color: #8cb8f5" ;
                                         type="submit">Upload</button>
                                 </div>
                             </form>

@@ -25,10 +25,11 @@ Route::middleware(['auth'])->group(function(){
 Route::get('/form',[FileControl::class ,'uploadForm'])->name('file.form');
 Route::post('/uploaded',[FileControl::class ,'stor'])->name('file.upload');
 Route::get('/show', [FileControl::class, 'show'])->name('file.show');
-Route::get('/download/{file}', [FileControl::class, 'download'])->name('file.download');
-Route::get('/share/{file}', [FileControl::class, 'share'])->name('file.share');
 Route::match(['post', 'delete'], '/files/{id}/delete', [FileControl::class, 'destroy'])->name('file.destroy');
 
 });
+
+Route::get('/download/{file}', [FileControl::class, 'download'])->name('file.download');
+Route::get('/share/{file}', [FileControl::class, 'share'])->name('file.share');
 
 require __DIR__.'/auth.php';
