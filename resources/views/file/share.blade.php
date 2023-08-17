@@ -1,18 +1,12 @@
 @extends('file.master')
 @section('title', 'share link')
 @section('content')
-    <div class="container my-5">
-        <h2 style="color: #617fa9" class="text-center fw-bold fs-5">{{ $file->name }} Shareable Link</h2>
-
-
-        <div class="  img-upload mb-3  d-flex justify-content-center align-items-center ">
-            <img style="width: 30%" src="{{ asset('img/share.jpg') }}" alt="">
-        </div>
-
+    <div class="container "  style=" margin-top: 90px">
+        <h2 style="color: #617fa9 ;" class="text-center fw-bold fs-5">{{ $file->name }} Shareable Link</h2>
         <div class="row  d-flex justify-content-center align-items-center">
 
-            <div class="col-md-10">
-                <small class="fw-bold" style="color: #575b62" >copy link and share it :</smallv>
+            <div class="col-md-8"  >
+                <small class="fw-bold" style="color: #4b4949" >copy link and share it to download file :</smallv>
                 <div class="copy-box border rounded p-3 d-flex justify-content-between align-items-center w-100">
                     <div class="box-content">
                         <small class="fw-bold" >{{ $url }}</small>
@@ -22,7 +16,6 @@
 
             </div>
         </div>
-
     </div>
 
 @section('script')
