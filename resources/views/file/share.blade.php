@@ -5,7 +5,7 @@
         <h2 style="color: #617fa9 ;" class="text-center fw-bold fs-5">{{ $file->name }} Shareable Link</h2>
         <div class="row  d-flex justify-content-center align-items-center">
 
-            <div class="col-md-8"  >
+            <div class="col-md-10"  >
                 <small class="fw-bold" style="color: #4b4949" >copy link and share it to download file :</smallv>
                 <div class="copy-box border rounded p-3 d-flex justify-content-between align-items-center w-100">
                     <div class="box-content">

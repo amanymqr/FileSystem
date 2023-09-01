@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\FileLog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\FileDownloaded;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 
@@ -18,23 +21,24 @@ class FileControl extends Controller
 
 
 
-public function stor(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'file' => 'required|file|max:10240'
-    ]);
+    public function stor(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'file' => 'required|file|max:10240'
+        ]);
 
-    $filename = Str::random(8) . '.' .  $request->file->getClientOriginalName();
-    $path = $request->file('file')->storeAs('uploads', $filename, 'local');
+        $filename = Str::random(8) . '.' .  $request->file->getClientOriginalName();
+        $path = $request->file('file')->storeAs('uploads', $filename);
 
-    $file_data = new File();
-    $file_data->file = $filename;
-    $file_data->name = $request->name;
-    $file_data->save();
+        $file_data = new File();
+        $file_data->file = $filename;
+        $file_data->name = $request->name;
+        $file_data->save();
+        // event(new FileDownloaded($file_data->id, $request->ip(), $request->header('User-Agent')));
 
-    return redirect()->route('file.show')->with('msg', 'File uploaded successfully')->with('type', 'success');
-}
+        return redirect()->route('file.show')->with('msg', 'File uploaded successfully')->with('type', 'success');
+    }
 
 
 
@@ -48,9 +52,19 @@ public function stor(Request $request)
 
     public function download($file)
     {
-        $filePath = storage_path('app/uploads/' . $file); // Use storage_path to get the correct path
+        $filePath = storage_path('app/uploads/' . $file);
 
         if (File::exists($filePath)) {
+            $fileModel = File::where('file', $file)->first();
+            if ($fileModel) {
+                $ipAddress = request()->ip();
+                $userAgent = request()->header('User-Agent');
+
+                event(new FileDownloaded($fileModel->id, $ipAddress, $userAgent));
+
+                $fileModel->download_count++;
+                $fileModel->save();
+            }
             return Response::download($filePath);
         } else {
             return redirect()->back()
@@ -61,14 +75,20 @@ public function stor(Request $request)
 
 
 
-public function share($id)
-{
-    $file = File::findOrFail($id);
-    $url =  URL::temporarySignedRoute('file.download',  now()->addHours(2) ,
-            ['file' => $file->file ,
-            'name' => $file->name ]);
-    return view('file.share', compact('url', 'file'));
-}
+
+    public function share($id)
+    {
+        $file = File::findOrFail($id);
+        $url =  URL::temporarySignedRoute(
+            'file.download',
+            now()->addHours(2),
+            [
+                'file' => $file->file,
+                'name' => $file->name
+            ]
+        );
+        return view('file.share', compact('url', 'file'));
+    }
 
 
 
@@ -89,23 +109,4 @@ public function share($id)
             ->with('msg', 'File deleted successfully')
             ->with('type', 'danger');
     }
-
-
-
-
-
-
-
 }
-
-
-//$url = Storage::disk('private')->url($file);
-
-    // // Check if the file exists
-    // if (Storage::disk('private')->exists($file)) {
-    //     return response()->download($url);
-    //     // Generate a file download response
-    // } else {
-    //     return redirect()->back()
-    //         ->with('msg', 'File not found')
-    //         ->with('type', 'danger');
